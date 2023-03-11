@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">dev-paint</string>
+    <string name="password_login">Contraseña</string>
+    <string name="correo">Corre electrónico</string>
+    <string name="registro_de_usuario">Registro de usuario</string>
 </resources>

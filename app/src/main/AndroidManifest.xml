@@ -12,6 +12,15 @@
         android:theme="@style/Theme.Devpaint"
         tools:targetApi="31">
         <activity
+            android:name=".Lienzo"
+            android:exported="false" />
+        <activity
+            android:name=".Registrar"
+            android:exported="false" />
+        <activity
+            android:name=".Login"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
