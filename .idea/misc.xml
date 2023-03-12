@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Tommy/Desktop/UTEQ/app/dev-paint/app/src/main/res/layout/activity_registrar.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Tommy/Desktop/UTEQ/app/dev-paint/app/src/main/res/drawable/ic_baseline_save_24.xml" value="0.2595" />
+        <entry key="..\:/Users/Tommy/Desktop/UTEQ/app/dev-paint/app/src/main/res/layout/activity_lienzo.xml" value="0.34444444444444444" />
+        <entry key="..\:/Users/Tommy/Desktop/UTEQ/app/dev-paint/app/src/main/res/layout/activity_login.xml" value="0.34444444444444444" />
+        <entry key="..\:/Users/Tommy/Desktop/UTEQ/app/dev-paint/app/src/main/res/layout/activity_registrar.xml" value="0.1" />
       </map>
     </option>
   </component>

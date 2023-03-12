@@ -14,7 +14,9 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_centerInParent="true"
+        android:elevation="10dp"
+        android:layout_gravity="center" />
 
     <LinearLayout
         android:id="@+id/containertitle"
@@ -42,7 +44,6 @@
         android:drawableLeft="@drawable/ic_baseline_person_outline_24"
         android:drawablePadding="20dp"
         android:hint="Nombre"
-
         android:padding="20dp"
         android:textColor="@color/text_label"
         android:textColorHint="@color/text_label" />
@@ -57,7 +58,7 @@
         android:background="@color/input_back"
         android:drawableLeft="@drawable/ic_baseline_person_outline_24"
         android:drawablePadding="20dp"
-        android:hint="Correo"
+        android:hint="Correo electrónico"
         android:padding="20dp"
         android:textColor="@color/text_label"
         android:textColorHint="@color/text_label" />
@@ -120,7 +121,7 @@
         android:id="@+id/signupbtn"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_below="@+id/roles"
         android:backgroundTint="@color/secondary"
         android:layout_marginTop="16dp"

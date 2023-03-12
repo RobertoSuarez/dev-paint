@@ -22,7 +22,7 @@ class Login : AppCompatActivity() {
         val password = findViewById<EditText>(R.id.password)
 
         email.setText("tas.apo@gmail.com")
-        password.setText("123456")
+        password.setText("facil2020")
 
         val btnIniciar: Button = findViewById(R.id.login)
         val btnRegistrar: Button = findViewById(R.id.btnregistrar)
