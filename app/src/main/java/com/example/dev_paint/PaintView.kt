@@ -12,9 +12,9 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val path = Path()
 
     private val paths = mutableListOf<Path>()
+    private val strokeWidths = mutableListOf<Float>()
     private var currentPath: Path? = null
     private var currentColor = Color.BLACK
-    private var currentStrokeWidth = 10f // ancho del trazo por defecto
 
 
     init {
@@ -23,16 +23,14 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         paint.style = Paint.Style.STROKE
         paint.strokeJoin = Paint.Join.ROUND
         paint.strokeCap = Paint.Cap.ROUND
-        paint.strokeWidth = currentStrokeWidth
-
+        paint.strokeWidth = 10f
 
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        //canvas.drawPath(path, paint)
         for ((index, path) in paths.withIndex()) {
-
+            paint.strokeWidth = strokeWidths[index]
             canvas.drawPath(path, paint)
         }
     }
@@ -46,19 +44,13 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 currentPath = Path()
                 currentPath?.moveTo(event.x, event.y)
                 paths.add(currentPath!!)
-
-                //path.moveTo(x, y)
+                strokeWidths.add(paint.strokeWidth)
                 return true
             }
             MotionEvent.ACTION_MOVE -> {
                 currentPath?.lineTo(event.x, event.y)
                 //path.lineTo(x, y)
                 invalidate()
-            }
-
-            MotionEvent.ACTION_UP -> {
-                paths.add(path)
-                currentPath = Path()
             }
 
             else -> return false
@@ -68,10 +60,7 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     fun setStrokeWidth(strokeWidth: Float) {
-        currentStrokeWidth = strokeWidth
-        val newPaint = Paint(paint) // crea un nuevo objeto Paint a partir del anterior
-        newPaint.strokeWidth = currentStrokeWidth
-        paint = newPaint // reemplaza el objeto Paint anterior con el nuevo
+        this.paint.strokeWidth = strokeWidth
     }
 
     fun clear() {
