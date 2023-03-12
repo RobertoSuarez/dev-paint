@@ -10,4 +10,5 @@
     <color name="text_label">#A6A6A6</color>
     <color name="input_back">#EFF4F2</color>
     <color name="primary_green">#06BF77</color>
+    <color name="secondary">#F94D85</color>
 </resources>
