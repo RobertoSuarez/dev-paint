@@ -1,10 +1,15 @@
 package com.example.dev_paint
 
+import android.app.Activity
+import android.content.ContentValues
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.*
+import android.provider.MediaStore
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 
 class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
@@ -68,6 +73,84 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             path.reset()
         }
         invalidate()
+    }
+
+    fun viewToBitmap(view: View): Bitmap {
+        val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+        return bitmap
+    }
+
+    fun saveToGallery() {
+        // Convierte el PaintView en un Bitmap
+        val bitmap = viewToBitmap(this)
+
+        // Comprueba si el Bitmap contiene algún pixel que no sea negro
+        var hasNonBlackPixels = false
+        for (x in 0 until bitmap.width) {
+            for (y in 0 until bitmap.height) {
+                if (bitmap.getPixel(x, y) != Color.BLACK) {
+                    hasNonBlackPixels = true
+                    break
+                }
+            }
+            if (hasNonBlackPixels) break
+        }
+
+        // Si el Bitmap contiene algún pixel que no sea negro, guarda la imagen en la galería
+        if (hasNonBlackPixels) {
+            val values = ContentValues().apply {
+                put(MediaStore.Images.Media.DISPLAY_NAME, "MyImage")
+                put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+            }
+
+            val uri = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+
+            if (uri != null) {
+                val outputStream = context.contentResolver.openOutputStream(uri)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+                outputStream?.close()
+            }
+        }
+    }
+
+    fun captureScreenAndSaveToGallery() {
+        // Crea un objeto Bitmap del tamaño de la pantalla
+        val width = Resources.getSystem().displayMetrics.widthPixels
+        val height = Resources.getSystem().displayMetrics.heightPixels
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+
+        // Crea un objeto Canvas para dibujar en el Bitmap
+        val canvas = Canvas(bitmap)
+
+        // Dibuja la pantalla en el Bitmap
+        val rootView = (context as Activity).window.decorView
+        rootView.draw(canvas)
+        //this.draw(canvas)
+
+        // Guarda el Bitmap en la galería
+        val values = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, "MyScreenshot")
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+        }
+
+        val uri = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+
+        if (uri != null) {
+            val outputStream = context.contentResolver.openOutputStream(uri)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+            outputStream?.close()
+        }
+
+        Toast.makeText(context, "Se guardo la imagen en galeria", Toast.LENGTH_SHORT).show()
+    }
+
+    fun takeScreenshot(): Bitmap {
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        draw(canvas)
+        return bitmap
     }
 
 }

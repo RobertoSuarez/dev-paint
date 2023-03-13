@@ -55,7 +55,7 @@
                 android:thumbTint="@color/secondary" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnColor"
+                android:id="@+id/btn_select_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/secondary"

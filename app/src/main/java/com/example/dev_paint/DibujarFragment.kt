@@ -1,6 +1,10 @@
 package com.example.dev_paint
 
+import android.app.Dialog
+import android.content.ContentValues
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
-import android.widget.Toolbar
+import android.widget.Toast
 import com.google.android.material.appbar.MaterialToolbar
 
 // TODO: Rename parameter arguments, choose names that match
@@ -21,7 +25,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [DibujarFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DibujarFragment : Fragment() {
+class DibujarFragment : Fragment()  {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -49,12 +53,13 @@ class DibujarFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_dibujar, container, false)
 
         paintView = view.findViewById(R.id.paintView)
-        btnColor = view.findViewById<Button>(R.id.btnColor)
+        btnColor = view.findViewById<Button>(R.id.btn_select_color)
         seekBar = view.findViewById<SeekBar>(R.id.brushSize)
         seekBar.setProgress(10)
 
         btnColor.setOnClickListener {
             println("Seleccionar un color")
+
         }
 
         toolbar = view.findViewById(R.id.appbarDibujar)
@@ -68,6 +73,7 @@ class DibujarFragment : Fragment() {
 
                 R.id.action_guardar -> {
                     println("Guardar")
+                    paintView.captureScreenAndSaveToGallery()
                     true
                 }
                 else -> false
@@ -119,4 +125,5 @@ class DibujarFragment : Fragment() {
                 }
             }
     }
+
 }

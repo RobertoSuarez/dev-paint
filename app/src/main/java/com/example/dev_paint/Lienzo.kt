@@ -25,6 +25,7 @@ class Lienzo : AppCompatActivity() {
         imageView = findViewById<ImageView>(R.id.btn_save)
         seekBar.setProgress(10)
 
+        
 
         clearBtn.setOnClickListener {
             paintView.clear()
