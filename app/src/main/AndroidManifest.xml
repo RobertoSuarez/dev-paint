@@ -12,6 +12,9 @@
         android:theme="@style/Theme.Devpaint"
         tools:targetApi="31">
         <activity
+            android:name=".LayoutPaint"
+            android:exported="false" />
+        <activity
             android:name=".Lienzo"
             android:exported="false" />
         <activity

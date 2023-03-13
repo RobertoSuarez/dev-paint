@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item_dibujar"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_format_paint_24"
+        android:title="Dibujar"/>
+
+    <item
+        android:id="@+id/item_imitar"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_content_copy_24"
+        android:title="Imitar"/>
+
+    <item
+        android:id="@+id/item_puntaje"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_star_24"
+        android:title="Puntaje"/>
+
+    <item
+        android:id="@+id/item_confi"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="Configuraciones"/>
+</menu>

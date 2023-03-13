@@ -3,4 +3,6 @@
     <string name="password_login">Contraseña</string>
     <string name="correo">Corre electrónico</string>
     <string name="registro_de_usuario">Registro de usuario</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -48,7 +48,9 @@ class Login : AppCompatActivity() {
                     // El inicio de sesión fue exitoso, puedes redirigir al usuario a la actividad principal
                     Toast.makeText(this, "El inicio de sesión fue exitoso", Toast.LENGTH_LONG).show()
                     Log.d("LOGIN", "El inicio de sesión fue exitoso")
-                    startActivity(Intent(this, Lienzo::class.java))
+                    //startActivity(Intent(this, Lienzo::class.java))
+                    // abrimos el menu principal de la app
+                    startActivity(Intent(this, LayoutPaint::class.java))
 
                 } else {
                     // Si el inicio de sesión falló, muestra un mensaje al usuario.
