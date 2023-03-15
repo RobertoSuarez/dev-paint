@@ -38,6 +38,10 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.0.1")
     implementation("androidx.compose.material3:material3-window-size-class:1.0.1")
 
+    // libreria para selecinar el color
+    implementation 'com.maxkeppeler.sheets:color:2.3.1'
+
+
     implementation "androidx.fragment:fragment-ktx:1.5.5"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'

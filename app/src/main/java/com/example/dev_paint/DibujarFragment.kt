@@ -3,6 +3,7 @@ package com.example.dev_paint
 import android.app.Dialog
 import android.content.ContentValues
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.Toast
 import com.google.android.material.appbar.MaterialToolbar
+import com.maxkeppeler.sheets.color.ColorSheet
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,7 +61,13 @@ class DibujarFragment : Fragment()  {
 
         btnColor.setOnClickListener {
             println("Seleccionar un color")
-
+            ColorSheet().show(view.context) {
+                title("Selecciona un color")
+                onPositive { color ->
+                    println(color)
+                    paintView.paint.color = color
+                }
+            }
         }
 
         toolbar = view.findViewById(R.id.appbarDibujar)

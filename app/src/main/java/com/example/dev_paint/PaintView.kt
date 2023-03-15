@@ -13,11 +13,13 @@ import android.widget.Toast
 
 class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
-    private var paint = Paint()
+    var paint = Paint()
     private val path = Path()
 
     private val paths = mutableListOf<Path>()
     private val strokeWidths = mutableListOf<Float>()
+    private val colores = mutableListOf<Int>()
+
     private var currentPath: Path? = null
     private var currentColor = Color.BLACK
 
@@ -35,7 +37,9 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         for ((index, path) in paths.withIndex()) {
+            // establecemos el ancho y color de cada trazo o path
             paint.strokeWidth = strokeWidths[index]
+            paint.color = colores[index]
             canvas.drawPath(path, paint)
         }
     }
@@ -46,10 +50,11 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                currentPath = Path()
+                currentPath = Path() // creamos un nuevo path, cada vez que el usuario toque la pantall
                 currentPath?.moveTo(event.x, event.y)
                 paths.add(currentPath!!)
                 strokeWidths.add(paint.strokeWidth)
+                colores.add(paint.color)
                 return true
             }
             MotionEvent.ACTION_MOVE -> {
@@ -66,6 +71,10 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     fun setStrokeWidth(strokeWidth: Float) {
         this.paint.strokeWidth = strokeWidth
+    }
+
+    fun setColor(color: Int) {
+        this.paint.color = color
     }
 
     fun clear() {
