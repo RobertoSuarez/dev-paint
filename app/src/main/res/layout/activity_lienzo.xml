@@ -35,7 +35,7 @@
             android:id="@+id/paintView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <LinearLayout
             android:id="@+id/optionHolders"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/paintView">
 
@@ -51,8 +51,8 @@
                 android:id="@+id/brushSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
                 android:layout_margin="5dp"
+                android:layout_weight="3"
                 android:progressTint="@color/secondary"
                 android:thumbTint="@color/secondary" />
 

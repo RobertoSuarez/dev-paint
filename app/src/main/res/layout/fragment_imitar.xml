@@ -3,12 +3,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ImitarFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Imitando la imagen" />
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/appbarDibujar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/secondary"
+                app:titleTextColor="@color/white"
+                app:navigationIconTint="@color/white"
+                app:menu="@menu/top_app_bar"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                app:actionButtonStyle="@style/Widget.MaterialComponents.Button.Icon"
+                app:navigationIcon="@drawable/ic_baseline_format_paint_24" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:src="@drawable/img"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <com.example.dev_paint.PaintView
+                    android:id="@+id/paintView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/optionHolders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <SeekBar
+                    android:id="@+id/brushSize"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:layout_margin="5dp"
+                    android:progressTint="@color/secondary"
+                    android:thumbTint="@color/secondary" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_select_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/secondary"
+                    android:text="Color" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>

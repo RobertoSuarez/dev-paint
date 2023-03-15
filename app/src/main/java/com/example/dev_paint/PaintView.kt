@@ -2,14 +2,21 @@ package com.example.dev_paint
 
 import android.app.Activity
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
 import android.provider.MediaStore
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 
 class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
@@ -23,7 +30,10 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var currentPath: Path? = null
     private var currentColor = Color.BLACK
 
-
+    val db = Firebase.firestore
+    val collectionRef = db.collection("dibujos")
+    val user = FirebaseAuth.getInstance().currentUser
+    val userId = user?.uid
     init {
         paint.isAntiAlias = true
         paint.color = currentColor
@@ -138,6 +148,7 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         rootView.draw(canvas)
         //this.draw(canvas)
         val croppedBitmap = Bitmap.createBitmap(bitmap, 0, 400, width, height -500 )
+
         // Guarda el Bitmap en la galería
         val values = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, "MyScreenshot")
@@ -150,6 +161,36 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             val outputStream = context.contentResolver.openOutputStream(uri)
             croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
             outputStream?.close()
+        }
+        // Sube la imagen a Firebase Storage
+        val storageRef = FirebaseStorage.getInstance().reference
+        val imagesRef = storageRef.child("images/MyScreenshot.jpg")
+        if (uri != null) {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            imagesRef.putFile(uri)
+                .addOnSuccessListener { taskSnapshot ->
+                    // Obtiene la URL de descarga de la imagen subida
+                    imagesRef.downloadUrl.addOnSuccessListener { uri ->
+                        val imageUrl = uri.toString()
+                        val data = hashMapOf(
+                            "user_id" to userId,
+                            "fecha" to FieldValue.serverTimestamp(),
+                            "url_imagen" to imageUrl
+                        )
+                        collectionRef.add(data)
+                            .addOnSuccessListener { documentReference ->
+                                Log.d(TAG, "Documento agregado con ID: ${documentReference.id}")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w(TAG, "Error al agregar el documento", e)
+                            }
+                        // Hacer lo que quieras con la URL de la imagen
+                    }
+                    Toast.makeText(context, "Imagen subida a Firebase Storage", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(context, "Error al subir imagen a Firebase Storage", Toast.LENGTH_SHORT).show()
+                }
         }
 
         Toast.makeText(context, "Se guardo la imagen en galeria", Toast.LENGTH_SHORT).show()
