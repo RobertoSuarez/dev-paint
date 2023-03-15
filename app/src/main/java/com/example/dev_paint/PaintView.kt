@@ -137,7 +137,7 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         val rootView = (context as Activity).window.decorView
         rootView.draw(canvas)
         //this.draw(canvas)
-
+        val croppedBitmap = Bitmap.createBitmap(bitmap, 0, 400, width, height -500 )
         // Guarda el Bitmap en la galería
         val values = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, "MyScreenshot")
@@ -148,7 +148,7 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
         if (uri != null) {
             val outputStream = context.contentResolver.openOutputStream(uri)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+            croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
             outputStream?.close()
         }
 
