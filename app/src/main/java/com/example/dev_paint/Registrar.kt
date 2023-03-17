@@ -85,12 +85,12 @@ class Registrar : AppCompatActivity() {
                             }
                     }
                     else(
-                            Toast.makeText(
-                                this,
-                                "Error al registrar usuario: ${task.exception?.message}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            )
+                        Toast.makeText(
+                            this,
+                            "Error al registrar usuario: ${task.exception?.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        )
                 }
         }
     }

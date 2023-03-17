@@ -6,6 +6,7 @@ import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -21,10 +22,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.storage.FirebaseStorage
 import com.maxkeppeler.sheets.color.ColorSheet
-import org.json.JSONObject
 import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +37,11 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import java.text.DecimalFormat
+import android.Manifest
+import android.graphics.Color
+import com.example.dev_paint.models.Calificacion
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -56,7 +63,9 @@ class ImitarFragment : Fragment() {
     private lateinit var imageView : ImageView
     private lateinit var toolbar : MaterialToolbar
     private var PICK_IMAGE_REQUEST = 1
-    private lateinit var imageUp: Uri
+    private var PERMISSION_REQUEST_CODE = 100
+    private var imageUp: Uri? = null
+
 
 
 
@@ -79,6 +88,20 @@ class ImitarFragment : Fragment() {
             imageView.setImageURI(imageUri)
         }
     }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // El permiso ha sido concedido
+                val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(intent, PICK_IMAGE_REQUEST)
+            } else {
+                // El permiso ha sido denegado
+                Toast.makeText(context, "Debe conceder permiso para comparar las imagenes", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -90,8 +113,9 @@ class ImitarFragment : Fragment() {
         btnColor = view.findViewById<Button>(R.id.btn_select_color)
         seekBar = view.findViewById<SeekBar>(R.id.brushSize)
         imageView = view.findViewById<ImageView>(R.id.imgen_imitar)
-        seekBar.setProgress(10)
+        seekBar.progress = 10
 
+        btnColor.setBackgroundColor(Color.BLACK)
         btnColor.setOnClickListener {
             println("Seleccionar un color")
             ColorSheet().show(view.context) {
@@ -99,6 +123,7 @@ class ImitarFragment : Fragment() {
                 onPositive { color ->
                     println(color)
                     paintView.paint.color = color
+                    btnColor.setBackgroundColor(color)
                 }
             }
         }
@@ -107,21 +132,23 @@ class ImitarFragment : Fragment() {
 
         toolbar.setOnMenuItemClickListener { menuItem ->
             when(menuItem.itemId) {
+                // Sube las imagenes a firebase y las compara con la API
                 R.id.action_compare -> {
                     this.captureAndSaveLowerHalfToFirebase(view.context)
                     true
                 }
+                // seleciona una imagen de la galeria
                 R.id.action_upload -> {
                     // action para subir imagen a la app
-                    val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                    startActivityForResult(intent, PICK_IMAGE_REQUEST)
-               true
+                    this.uploadCompareImage(view)
+                    true
                 }
+                // Limpia el lienso de la app
                 R.id.action_clean -> {
                     paintView.clear()
                     true
                 }
-
+                // guarda la imagen en Galeria
                 R.id.action_guardar -> {
                     println("Guardar")
                     paintView.captureScreenAndSaveToGallery()
@@ -158,6 +185,13 @@ class ImitarFragment : Fragment() {
     }
 
     fun captureAndSaveLowerHalfToFirebase(context: Context) {
+
+        // verficamos si el usuario subio una imagen a la app
+        if (imageUp == null) {
+            Toast.makeText(context, "No se ha seleccionado ninguna imagen", Toast.LENGTH_LONG).show()
+            return
+        }
+
         // Obtiene el tamaño de la pantalla
         val width = Resources.getSystem().displayMetrics.widthPixels
         val height = Resources.getSystem().displayMetrics.heightPixels
@@ -202,11 +236,21 @@ class ImitarFragment : Fragment() {
             }
         }
 
-        if (uri != null) {
-            uploadImagesToFirebase(uri, imageUp)
+        if (uri != null && imageUp != null) {
+            uploadImagesToFirebase(uri, imageUp!!)
         }
 
         Toast.makeText(context, "Se guardó la imagen en la galería", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun uploadCompareImage(view: View) {
+        if (ContextCompat.checkSelfPermission(view.context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(view.context as Activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), PERMISSION_REQUEST_CODE)
+        } else {
+            // El permiso ya ha sido concedido
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, PICK_IMAGE_REQUEST)
+        }
     }
 
     private fun uploadImagesToFirebase(imageUri1: Uri, imageUri2: Uri) {
@@ -261,7 +305,43 @@ class ImitarFragment : Fragment() {
                                     if (similarity != null) {
                                         Toast.makeText(context, "Similitud: " + similarity * 10f, Toast.LENGTH_LONG).show()
                                     }
+
+                                    val auth = FirebaseAuth.getInstance()
+                                    val db = FirebaseFirestore.getInstance()
+                                    val currentUser = auth.currentUser
+
+
+                                    if (currentUser != null) {
+                                        val userRef = db.collection("usuarios").document(currentUser.uid)
+                                        userRef.get()
+                                            .addOnSuccessListener {user ->
+                                                val nombre = user.getString("nombre")
+                                                // registrar la información de la comparación
+                                                val calificacion = Calificacion(
+                                                    uid = currentUser.uid,
+                                                    name = nombre!!,
+                                                    img1 = uri1.toString(),
+                                                    img2 = uri2.toString(),
+                                                    rating = similarity!! * 10
+                                                )
+
+                                                val caliReff = db.collection("calificaciones")
+                                                caliReff.add(calificacion)
+                                                    .addOnSuccessListener { documentReferen ->
+                                                        Toast.makeText(context, "Se registro la calificación en firestore", Toast.LENGTH_LONG).show()
+                                                    }.addOnFailureListener {e ->
+                                                        println(e.toString())
+                                                    }
+                                            }
+
+
+                                    }
+
+
+
                                 }
+
+
 
 
 

@@ -1,9 +1,7 @@
 package com.example.dev_paint
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MotionEvent
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
@@ -20,10 +18,10 @@ class Lienzo : AppCompatActivity() {
         setContentView(R.layout.activity_lienzo)
 
         paintView = findViewById(R.id.paintView)
-        clearBtn = findViewById<Button>(R.id.btnClear)
-        seekBar = findViewById<SeekBar>(R.id.brushSize)
-        imageView = findViewById<ImageView>(R.id.btn_save)
-        seekBar.setProgress(10)
+        clearBtn = findViewById(R.id.btnClear)
+        seekBar = findViewById(R.id.brushSize)
+        imageView = findViewById(R.id.btn_save)
+        seekBar.progress = 10
 
         
 

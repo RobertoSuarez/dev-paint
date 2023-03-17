@@ -43,8 +43,9 @@
 
                 <ImageView
                     android:id="@+id/imgen_imitar"
-                    android:src="@drawable/img"
+                    android:src="@drawable/img_requerida_center"
                     android:layout_width="match_parent"
+                    android:scaleType="centerCrop"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
 

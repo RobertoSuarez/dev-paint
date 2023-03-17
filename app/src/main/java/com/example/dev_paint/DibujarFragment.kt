@@ -57,8 +57,9 @@ class DibujarFragment : Fragment()  {
         paintView = view.findViewById(R.id.paintView)
         btnColor = view.findViewById<Button>(R.id.btn_select_color)
         seekBar = view.findViewById<SeekBar>(R.id.brushSize)
-        seekBar.setProgress(10)
+        seekBar.progress = 10
 
+        btnColor.setBackgroundColor(Color.BLACK)
         btnColor.setOnClickListener {
             println("Seleccionar un color")
             ColorSheet().show(view.context) {
@@ -66,6 +67,7 @@ class DibujarFragment : Fragment()  {
                 onPositive { color ->
                     println(color)
                     paintView.paint.color = color
+                    btnColor.setBackgroundColor(color)
                 }
             }
         }

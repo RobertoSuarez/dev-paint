@@ -17,6 +17,8 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
@@ -134,6 +136,7 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         }
     }
 
+    // Guarda la captura de dibujo libre
     fun captureScreenAndSaveToGallery() {
         // Crea un objeto Bitmap del tamaño de la pantalla
         val width = Resources.getSystem().displayMetrics.widthPixels
@@ -147,7 +150,11 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         val rootView = (context as Activity).window.decorView
         rootView.draw(canvas)
         //this.draw(canvas)
-        val croppedBitmap = Bitmap.createBitmap(bitmap, 0, 400, width, height -500 )
+        val scale: Float = resources.displayMetrics.density
+        val dpValue = 16 // el valor en dp que deseas convertir
+        //val pxValue = (dpValue * scale + 0.5f).toInt()
+
+        val croppedBitmap = Bitmap.createBitmap(bitmap, 0, (56 + 55 * scale + 0.5f).toInt(), width, height -  ((56 + 58 + 50) * scale + 0.5f).toInt())
 
         // Guarda el Bitmap en la galería
         val values = ContentValues().apply {
@@ -164,7 +171,7 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         }
         // Sube la imagen a Firebase Storage
         val storageRef = FirebaseStorage.getInstance().reference
-        val imagesRef = storageRef.child("images/MyScreenshot.jpg")
+        val imagesRef = storageRef.child("images/${generateFileName()}")
         if (uri != null) {
             val inputStream = context.contentResolver.openInputStream(uri)
             imagesRef.putFile(uri)
@@ -196,8 +203,10 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         Toast.makeText(context, "Se guardo la imagen en galeria", Toast.LENGTH_SHORT).show()
     }
 
-
-
+    fun generateFileName(): String {
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        return "image_$timestamp.jpg"
+    }
 
     fun takeScreenshot(): Bitmap {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
