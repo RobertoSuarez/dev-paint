@@ -23,7 +23,7 @@
                 android:background="@color/secondary"
                 app:titleTextColor="@color/white"
                 app:navigationIconTint="@color/white"
-                app:menu="@menu/top_app_bar"
+                app:menu="@menu/app_bar_imitar"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 app:actionButtonStyle="@style/Widget.MaterialComponents.Button.Icon"
                 app:navigationIcon="@drawable/ic_baseline_format_paint_24" />
@@ -42,6 +42,7 @@
                 android:layout_weight="1">
 
                 <ImageView
+                    android:id="@+id/imgen_imitar"
                     android:src="@drawable/img"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"

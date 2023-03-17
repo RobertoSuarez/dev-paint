@@ -62,8 +62,5 @@
                 android:text="Color" />
 
         </LinearLayout>
-
-
     </LinearLayout>
-
 </FrameLayout>

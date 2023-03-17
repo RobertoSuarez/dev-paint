@@ -196,6 +196,9 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         Toast.makeText(context, "Se guardo la imagen en galeria", Toast.LENGTH_SHORT).show()
     }
 
+
+
+
     fun takeScreenshot(): Bitmap {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
