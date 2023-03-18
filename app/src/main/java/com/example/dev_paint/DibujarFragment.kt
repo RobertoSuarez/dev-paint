@@ -44,8 +44,6 @@ class DibujarFragment : Fragment()  {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
-
     }
 
     override fun onCreateView(
