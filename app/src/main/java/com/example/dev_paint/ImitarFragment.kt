@@ -42,6 +42,7 @@ import android.graphics.Color
 import com.example.dev_paint.models.Calificacion
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -65,9 +66,6 @@ class ImitarFragment : Fragment() {
     private var PICK_IMAGE_REQUEST = 1
     private var PERMISSION_REQUEST_CODE = 100
     private var imageUp: Uri? = null
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -310,7 +308,6 @@ class ImitarFragment : Fragment() {
                                     val db = FirebaseFirestore.getInstance()
                                     val currentUser = auth.currentUser
 
-
                                     if (currentUser != null) {
                                         val userRef = db.collection("usuarios").document(currentUser.uid)
                                         userRef.get()
@@ -322,7 +319,8 @@ class ImitarFragment : Fragment() {
                                                     name = nombre!!,
                                                     img1 = uri1.toString(),
                                                     img2 = uri2.toString(),
-                                                    rating = similarity!! * 10
+                                                    rating = similarity!! * 10,
+                                                    fecha = Date()
                                                 )
 
                                                 val caliReff = db.collection("calificaciones")
@@ -333,20 +331,8 @@ class ImitarFragment : Fragment() {
                                                         println(e.toString())
                                                     }
                                             }
-
-
                                     }
-
-
-
                                 }
-
-
-
-
-
-
-
                             }.addOnFailureListener { e ->
                                 // Error al obtener la URL de descarga de la imagen 2
                                 Log.e(TAG, "Error al obtener la URL de descarga de la imagen 2: $e")

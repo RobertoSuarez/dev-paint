@@ -53,7 +53,6 @@ class Registrar : AppCompatActivity() {
             Auth.createUserWithEmailAndPassword(input_correo.text.toString(),input_password.text.toString())
                 .addOnCompleteListener{task ->
                     if(task.isSuccessful){
-
                         Toast.makeText(
                             this,
                             "Usuario registrado correctamente",
@@ -68,11 +67,10 @@ class Registrar : AppCompatActivity() {
                             rol = radioRole.text.toString())
 
                         refUsuario
-                            .document(uid.toString())
+                            .document(uid!!)
                             .set(usuario)
                             .addOnSuccessListener { documentReference ->
                                 Log.d("Registrar", "El usuario fue insertado con ID: ${uid.toString()}")
-
                                 val intent = Intent(this, Login::class.java)
                                 startActivity(intent)
                             }

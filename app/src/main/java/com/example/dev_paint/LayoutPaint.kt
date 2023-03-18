@@ -31,6 +31,11 @@ class LayoutPaint : AppCompatActivity() {
                     switchFragment(ImitarFragment())
                     return@setOnItemSelectedListener true
                 }
+                // establecemos el fragment Calificaciones
+                R.id.item_puntaje -> {
+                    switchFragment(CalificacionesFragment())
+                    return@setOnItemSelectedListener true
+                }
 
                 R.id.item_confi -> {
                     switchFragment(ConfiguracionesFragment())
