@@ -5,10 +5,40 @@
     android:layout_height="match_parent"
     tools:context=".ConfiguracionesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nombre del usuario"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/correo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Apellido del usuario"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/rol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rol del usuario"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+
+        <Button
+            android:id="@+id/boton_cerrar_sesion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cerrar sesión"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+    </LinearLayout>
 
 </FrameLayout>

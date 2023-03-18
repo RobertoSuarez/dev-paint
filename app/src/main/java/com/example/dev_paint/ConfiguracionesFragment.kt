@@ -1,10 +1,15 @@
 package com.example.dev_paint
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
+import com.example.dev_paint.models.User
+import com.google.android.material.textview.MaterialTextView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +39,26 @@ class ConfiguracionesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_configuraciones, container, false)
+        val view = inflater.inflate(R.layout.fragment_configuraciones, container, false)
+
+        val nombre = view.findViewById<MaterialTextView>(R.id.nombre)
+        val emailText = view.findViewById<MaterialTextView>(R.id.correo)
+        val rol = view.findViewById<MaterialTextView>(R.id.rol)
+
+        User().getCurrentUser()
+            .addOnSuccessListener {user ->
+                nombre.text = user.getString("nombre")
+                emailText.text = user.getString("correo")
+                rol.text = user.getString("rol")
+            }
+
+        val button = view.findViewById<Button>(R.id.boton_cerrar_sesion)
+
+        button.setOnClickListener {
+            startActivity(Intent(view.context, Login::class.java))
+        }
+
+        return view
     }
 
     companion object {

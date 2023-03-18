@@ -42,6 +42,7 @@ import android.graphics.Color
 import com.example.dev_paint.models.Calificacion
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -209,7 +210,7 @@ class ImitarFragment : Fragment() {
 
         // Guarda el Bitmap en la galería
         val values = ContentValues().apply {
-            put(MediaStore.Images.Media.DISPLAY_NAME, "MyScreenshot")
+            put(MediaStore.Images.Media.DISPLAY_NAME, generateFileName())
             put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
         }
 
@@ -223,7 +224,7 @@ class ImitarFragment : Fragment() {
 
         // Sube la imagen a Firebase Storage
         val storageRef = FirebaseStorage.getInstance().reference
-        val imagesRef = storageRef.child("images/MyScreenshot.jpg")
+        val imagesRef = storageRef.child("images/${generateFileName()}.jpg")
 
         if (uri != null) {
             val inputStream = context.contentResolver.openInputStream(uri)
@@ -249,6 +250,11 @@ class ImitarFragment : Fragment() {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, PICK_IMAGE_REQUEST)
         }
+    }
+
+    fun generateFileName(): String {
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        return "image_$timestamp"
     }
 
     private fun uploadImagesToFirebase(imageUri1: Uri, imageUri2: Uri) {

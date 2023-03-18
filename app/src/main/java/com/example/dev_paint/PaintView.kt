@@ -158,7 +158,7 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
         // Guarda el Bitmap en la galería
         val values = ContentValues().apply {
-            put(MediaStore.Images.Media.DISPLAY_NAME, "MyScreenshot")
+            put(MediaStore.Images.Media.DISPLAY_NAME, generateFileName())
             put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
         }
 
@@ -171,7 +171,7 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         }
         // Sube la imagen a Firebase Storage
         val storageRef = FirebaseStorage.getInstance().reference
-        val imagesRef = storageRef.child("images/${generateFileName()}")
+        val imagesRef = storageRef.child("images/${generateFileName()}.jpg")
         if (uri != null) {
             val inputStream = context.contentResolver.openInputStream(uri)
             imagesRef.putFile(uri)
@@ -205,7 +205,7 @@ class PaintView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     fun generateFileName(): String {
         val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        return "image_$timestamp.jpg"
+        return "image_$timestamp"
     }
 
     fun takeScreenshot(): Bitmap {
