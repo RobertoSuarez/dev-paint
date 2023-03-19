@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AsignarTareaFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="10dp"
+            android:text="Asignación de tareas"
+            android:shadowColor="#808080"
+            android:shadowRadius="2"
+            android:textAppearance="?attr/textAppearanceHeadline4"
+            android:textColor="@color/text_label" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:src="@drawable/img_requerida_center"
+            android:scaleType="centerCrop"
+            android:layout_height="200dp"/>
+
+        <Button
+            android:id="@+id/cargar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="end"
+            android:text="Cargar Imagen"
+            style="@style/Widget.MaterialComponents.Button.TextButton"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/signin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:text="Lista de estudiantes"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnAsignar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="end"
+            android:text="Asignar"
+            style="@style/Widget.MaterialComponents.Button"/>
+
+    </LinearLayout>
+
+</FrameLayout>

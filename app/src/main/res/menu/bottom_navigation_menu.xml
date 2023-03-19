@@ -19,8 +19,16 @@
         android:title="Puntaje"/>
 
     <item
+        android:id="@+id/item_asignar"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_file_copy_24"
+        android:title="Asignar"
+        />
+
+    <item
         android:id="@+id/item_confi"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="Configuraciones"/>
+
 </menu>
