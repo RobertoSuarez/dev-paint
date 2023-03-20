@@ -63,10 +63,10 @@ class ImitarFragment : Fragment() {
     private lateinit var btnColor : Button
     private lateinit var seekBar : SeekBar
     private lateinit var imageView : ImageView
+    private var imageUp: Uri? = null
     private lateinit var toolbar : MaterialToolbar
     private var PICK_IMAGE_REQUEST = 1
     private var PERMISSION_REQUEST_CODE = 100
-    private var imageUp: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

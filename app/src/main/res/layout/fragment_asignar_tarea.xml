@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".AsignarTareaFragment">
 
     <LinearLayout
@@ -23,17 +24,28 @@
             android:textAppearance="?attr/textAppearanceHeadline4"
             android:textColor="@color/text_label" />
 
-        <ImageView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:src="@drawable/img_requerida_center"
-            android:scaleType="centerCrop"
-            android:layout_height="200dp"/>
+            android:layout_height="wrap_content"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardUseCompatPadding="true">
+
+            <ImageView
+                android:id="@+id/img_tarea"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/img_requerida_center"
+                android:scaleType="centerInside" />
+
+        </androidx.cardview.widget.CardView>
+
 
         <Button
-            android:id="@+id/cargar"
+            android:id="@+id/btn_cargar_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:layout_gravity="end"
             android:text="Cargar Imagen"
             style="@style/Widget.MaterialComponents.Button.TextButton"/>
@@ -43,20 +55,15 @@
             android:layout_height="200dp"
             android:orientation="vertical"
             >
-            <TextView
-                android:id="@+id/signin"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lista_usuarios"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"
-                android:text="Lista de estudiantes"
-                android:textAppearance="?attr/textAppearanceBody1"
-                android:textColor="@color/black" />
+                android:layout_height="match_parent"/>
+
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnAsignar"
+            android:id="@+id/btn_asignar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

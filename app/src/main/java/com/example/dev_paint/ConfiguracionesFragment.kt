@@ -45,12 +45,13 @@ class ConfiguracionesFragment : Fragment() {
         val emailText = view.findViewById<MaterialTextView>(R.id.correo)
         val rol = view.findViewById<MaterialTextView>(R.id.rol)
 
-        User().getCurrentUser()
-            .addOnSuccessListener {user ->
-                nombre.text = user.getString("nombre")
-                emailText.text = user.getString("correo")
-                rol.text = user.getString("rol")
+        User.getCurrentUser { user ->
+            if (user != null) {
+                nombre.text = user.nombre
+                emailText.text = user.correo
+                rol.text = user.rol
             }
+        }
 
         val button = view.findViewById<Button>(R.id.boton_cerrar_sesion)
 

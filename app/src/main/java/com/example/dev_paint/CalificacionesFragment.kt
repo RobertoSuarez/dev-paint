@@ -45,27 +45,19 @@ class CalificacionesFragment : Fragment() {
         val listaCalificaciones = view.findViewById<RecyclerView>(R.id.lista_calificaciones)
         listaCalificaciones.layoutManager = LinearLayoutManager(context)
 
-        User().getCurrentUser()
-            .addOnSuccessListener { document ->
-                val usuario = document.toObject(User::class.java)
-                if (usuario?.rol == "Estudiante") {
-                    Calificacion().obtenerCalificacionesPorUid(usuario.uid!!) { calificaciones ->
-                        val adapter = CalifiacionesAdaptador(calificaciones)
-                        listaCalificaciones.adapter = adapter
-                    }
-                } else if (usuario?.rol == "Docente") {
-                    Calificacion().calificaciones { calificaciones ->
-                        val adapter = CalifiacionesAdaptador(calificaciones)
-                        listaCalificaciones.adapter = adapter
-                    }
+        User.getCurrentUser { user ->
+            if (user?.rol == "Estudiante") {
+                Calificacion().obtenerCalificacionesPorUid(user.id!!) { calificaciones ->
+                    val adapter = CalifiacionesAdaptador(calificaciones)
+                    listaCalificaciones.adapter = adapter
                 }
-
-            }.addOnCanceledListener {
-
+            } else if (user?.rol == "Docente") {
+                Calificacion().calificaciones { calificaciones ->
+                    val adapter = CalifiacionesAdaptador(calificaciones)
+                    listaCalificaciones.adapter = adapter
+                }
             }
-
-
-
+        }
         return view
     }
 

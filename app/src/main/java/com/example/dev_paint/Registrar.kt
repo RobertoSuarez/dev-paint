@@ -67,7 +67,7 @@ class Registrar : AppCompatActivity() {
 
                         val refUsuario = db.collection("usuarios")
 
-                        val uid = User().uid
+                        val uid = task.result.user?.uid
 
                         val usuario = hashMapOf(
                             "nombre" to input_nombre.text.toString(),

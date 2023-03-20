@@ -29,22 +29,20 @@ class LayoutPaint : AppCompatActivity() {
 
         menuItemAsignar.isVisible = false
 
-        User().getCurrentUser()
-            .addOnSuccessListener { document ->
-                val usuario = document.toObject(User::class.java)
-                this.rol = usuario?.rol.toString()
+        User.getCurrentUser { usuario ->
+            this.rol = usuario?.rol.toString()
 
-                if (usuario?.rol == "Docente") {
-                    menuItemAsignar.isVisible = true
-                    menuItemAsignar.setIcon(R.drawable.baseline_add_task_24)
-                }
-
-                if (usuario?.rol == "Estudiante") {
-                    menuItemAsignar.isVisible = true
-                    menuItemAsignar.title = "Tareas"
-                    menuItemAsignar.setIcon(R.drawable.baseline_task_24)
-                }
+            if (usuario?.rol == "Docente") {
+                menuItemAsignar.isVisible = true
+                menuItemAsignar.setIcon(R.drawable.baseline_add_task_24)
             }
+
+            if (usuario?.rol == "Estudiante") {
+                menuItemAsignar.isVisible = true
+                menuItemAsignar.title = "Tareas"
+                menuItemAsignar.setIcon(R.drawable.baseline_task_24)
+            }
+        }
 
         bottomNavigationView.setOnItemSelectedListener { item ->
             when(item.itemId) {
